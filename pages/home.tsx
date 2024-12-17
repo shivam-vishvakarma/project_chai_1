@@ -1,35 +1,51 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import FlatCard, {FlatCardProps} from '../components/FlatCard';
-import ElevatedCard, {ElevatedCardProps} from '../components/ElevatedCard';
-import {elevatedCardData, flatCardData} from '../server/data';
+import FlatCard from '../components/FlatCard';
+import ElevatedCard from '../components/ElevatedCard';
+import {elevatedCardData, flatCardData, trendingPlaces} from '../server/data';
+import Section from '../components/Section';
+import PlaceCard from '../components/PlaceCard';
 
 const Home = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.cardHeading}>Flat Cards</Text>
-      <View style={styles.flatCardContainer}>
-        {flatCardData.map((data, index) => (
-          <FlatCard
+      <Section heading="Flat Cards">
+        <View style={styles.flatCardContainer}>
+          {flatCardData.map((data, index) => (
+            <FlatCard
+              key={index}
+              text={data.text}
+              backgroundColor={data.backgroundColor}
+            />
+          ))}
+        </View>
+      </Section>
+      <Section heading="Elevated Cards">
+        <ScrollView
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          style={styles.elevatedCardContainer}>
+          {elevatedCardData.map((data, index) => (
+            <ElevatedCard
+              key={index}
+              text={data.text}
+              backgroundColor={data.backgroundColor}
+            />
+          ))}
+        </ScrollView>
+      </Section>
+      <Section heading="Trending Places">
+        {trendingPlaces.map((data, index) => (
+          <PlaceCard
             key={index}
-            text={data.text}
-            backgroundColor={data.backgroundColor}
+            img={data.img}
+            place={data.place}
+            city={data.city}
+            description={data.description}
+            link={data.link}
           />
         ))}
-      </View>
-      <Text style={styles.cardHeading}>Elevated Cards</Text>
-      <ScrollView
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        style={styles.elevatedCardContainer}>
-        {elevatedCardData.map((data, index) => (
-          <ElevatedCard
-            key={index}
-            text={data.text}
-            backgroundColor={data.backgroundColor}
-          />
-        ))}
-      </ScrollView>
+      </Section>
     </View>
   );
 };
@@ -41,13 +57,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
   },
-  cardHeading: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 10,
-    marginTop: 20,
-  },
+
   flatCardContainer: {
     flex: 1,
     flexDirection: 'row',
